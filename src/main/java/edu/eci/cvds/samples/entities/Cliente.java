@@ -17,7 +17,7 @@ public class Cliente implements Serializable{
     private String direccion;
     private String email;
     private boolean vetado;
-    private ArrayList<ItemRentado> rentados; 
+    private ArrayList<ItemRentado> rentados;
 
     public Cliente() {
     }
