@@ -60,10 +60,9 @@ public class JDBCExample {
             
             
             int suCodigoECI=2134391;
-            registrarNuevoProducto(con, suCodigoECI, "Juan Cortes", 666666);            
+            registrarNuevoProducto(con, suCodigoECI, "Juan Cortes", 666666);  
             con.commit();
-                        
-            
+           
             con.close();
                                    
         } catch (ClassNotFoundException | SQLException ex) {
@@ -85,10 +84,16 @@ public class JDBCExample {
         //Crear preparedStatement
         //Asignar parámetros
         //usar 'execute'
-
+    	String inString = "INSERT INTO ORD_PRODUCTOS (codigo, nombre, precio) VALUES (?,?,?)";
+    	
+        PreparedStatement inProd = con.prepareStatement(inString);
+        con.setAutoCommit(false);
+        inProd.setInt(1, codigo);
+        inProd.setString(2, nombre);
+        inProd.setInt(3, precio);
+        inProd.execute();
         
         con.commit();
-        
     }
     
     /**
