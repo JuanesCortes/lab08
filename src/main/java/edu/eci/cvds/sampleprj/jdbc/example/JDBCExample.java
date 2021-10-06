@@ -16,11 +16,13 @@
  */
 package edu.eci.cvds.sampleprj.jdbc.example;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,10 +36,10 @@ public class JDBCExample {
     
     public static void main(String args[]){
         try {
-            String url="jdbc:mysql://HOST:3306/BD";
+            String url="jdbc:mysql://desarrollo.is.escuelaing.edu.co:3306/bdprueba";
             String driver="com.mysql.jdbc.Driver";
-            String user="USER";
-            String pwd="PWD";
+            String user="bdprueba";
+            String pwd="prueba2019";
                         
             Class.forName(driver);
             Connection con=DriverManager.getConnection(url,user,pwd);
@@ -57,8 +59,8 @@ public class JDBCExample {
             System.out.println("-----------------------");
             
             
-            int suCodigoECI=20134423;
-            registrarNuevoProducto(con, suCodigoECI, "SU NOMBRE", 99999999);            
+            int suCodigoECI=2134391;
+            registrarNuevoProducto(con, suCodigoECI, "Juan Cortes", 666666);            
             con.commit();
                         
             
@@ -104,6 +106,27 @@ public class JDBCExample {
         //Sacar resultados del ResultSet
         //Llenar la lista y retornarla
         
+        String conString = "SELECT ORD_PRODUCTOS.nombre FROM ORD_PEDIDOS "
+        		+ "JOIN ORD_DETALLE_PEDIDO ON ORD_PEDIDOS.codigo = ORD_DETALLE_PEDIDO.pedido_fk "
+        		+ "JOIN ORD_PRODUCTOS ON ORD_DETALLE_PEDIDO.producto_fk = ORD_PRODUCTOS.codigo "
+        		+ "WHERE ORD_PEDIDOS.codigo = ORD_DETALLE_PEDIDO.pedido_fk and ORD_DETALLE_PEDIDO.producto_fk = ORD_PRODUCTOS.codigo"
+        		+ " and ORD_PEDIDOS.codigo = ? "
+        		+ "GROUP BY ORD_PRODUCTOS.nombre ";
+        
+        try {
+			PreparedStatement conPedido = con.prepareStatement(conString);
+			con.setAutoCommit(false);
+			conPedido.setInt(1, codigoPedido);
+			ResultSet res = conPedido.executeQuery();
+			
+			while (res.next()) {
+				np.add(res.getString(1));
+			}
+			con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        
         return np;
     }
 
@@ -120,7 +143,28 @@ public class JDBCExample {
         //asignar parámetros
         //usar executeQuery
         //Sacar resultado del ResultSet
-        
-        return 0;
+    	
+    	int valTot = 0;
+    	String conString = "SELECT sum(ORD_DETALLE_PEDIDO.cantidad * ORD_PRODUCTOS.precio) FROM ORD_PEDIDOS "
+        		+ "JOIN ORD_DETALLE_PEDIDO ON ORD_PEDIDOS.codigo = ORD_DETALLE_PEDIDO.pedido_fk "
+        		+ "JOIN ORD_PRODUCTOS ON ORD_DETALLE_PEDIDO.producto_fk = ORD_PRODUCTOS.codigo "
+        		+ "WHERE ORD_PEDIDOS.codigo = ORD_DETALLE_PEDIDO.pedido_fk and ORD_DETALLE_PEDIDO.producto_fk = ORD_PRODUCTOS.codigo"
+        		+ " and ORD_PEDIDOS.codigo = ?";
+    	
+    	try {
+			PreparedStatement conPedido = con.prepareStatement(conString);
+			con.setAutoCommit(false);
+			conPedido.setInt(1,codigoPedido);
+			ResultSet res = conPedido.executeQuery();
+			while (res.next()) {
+				valTot = res.getInt(1);
+			}
+			
+			
+			con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return valTot;
     }
 }
