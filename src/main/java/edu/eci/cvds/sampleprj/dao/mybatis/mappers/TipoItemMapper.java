@@ -9,10 +9,10 @@ import edu.eci.cvds.samples.entities.TipoItem;
 public interface TipoItemMapper {
     
     
-    public List<TipoItem> getTiposItems();
+    public List<TipoItem> consultarTiposItems();
     
-    public TipoItem getTipoItem(int id);
+    public TipoItem consultarTipoItem(@Param("idti")int id);
     
-    public void addTipoItem(String des);
+    public void agrgarTipoItem(@Param("ti")TipoItem ti);
 
 }
