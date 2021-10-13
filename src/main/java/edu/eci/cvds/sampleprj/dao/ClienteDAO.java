@@ -16,5 +16,7 @@ public interface ClienteDAO {
 	
 	public void saveItemRentadoACliente (int id, int idit, Date fechainicio, Date fechafin)throws PersistenceException;
 	
+	public void setEstadoCliente(long id, boolean estado) throws PersistenceException;
+	
 	
 }

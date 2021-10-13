@@ -11,7 +11,7 @@ import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
 
-public class MyBATISClienteDao implements ClienteDAO{
+public class MyBATISClienteDAO implements ClienteDAO{
 	
 	@Inject
 	private ClienteMapper clienteMapper;
@@ -52,6 +52,16 @@ public class MyBATISClienteDao implements ClienteDAO{
 		}catch(org.apache.ibatis.exceptions.PersistenceException e) {
 			throw new PersistenceException("Error al salvar el item rentado "+idit);
 		}
+	}
+
+	@Override
+	public void setEstadoCliente(long id, boolean estado) throws PersistenceException {
+		try {
+			clienteMapper.cambiarEstadoCliente(id, estado);
+		}catch(org.apache.ibatis.exceptions.PersistenceException e) {
+			throw new PersistenceException("Error al cambiar el estado del cliente "+id);
+		}
+		
 	}
 
 }

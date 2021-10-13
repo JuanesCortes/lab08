@@ -36,4 +36,6 @@ public interface ClienteMapper {
      */
     public List<Cliente> consultarClientes();
     
+    public void cambiarEstadoCliente(@Param("id")long id,@Param("estado") boolean estado);
+    
 }

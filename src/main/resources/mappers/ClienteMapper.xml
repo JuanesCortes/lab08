@@ -66,6 +66,9 @@
     <insert parameterType="map" id="agregarCliente">
     	insert into VI_CLIENTES(documento,nombre,telefono,direccion,email,vetado) values(#{cl.documento},#{cl.nombre},#{cl.telefono},#{cl.direccion},#{cl.email},#{cl.vetado})
     </insert>
+    <update parameterType="map" id="cambiarEstadoCliente">
+    	UPDATE VI_CLIENTES set vetado=#{estado} WHERE documento=#{id};
+    </update>
 
 	<resultMap type='Cliente' id='ClienteResult'>
 		<id property='documento' column='documento'/>

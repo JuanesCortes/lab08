@@ -7,6 +7,9 @@
     <insert parameterType="map" id="insertarItem">
     	insert into VI_ITEMS(id,nombre,descripcion,fechaLanzamiento,tarifaxdia,formatorenta,genero,TIPOITEM_id) values(#{item.id},#{item.nombre},#{item.descripcion},#{item.fechaLanzamiento},#{item.tarifaxDia},#{item.formatoRenta},#{item.genero},#{item.tipo.id})
     </insert>
+    <update parameterType="map" id="actualizarTarifaItem">
+    	update VI_ITEMS set tarifaxdia=#{tarifa} where id=#{id};
+  	</update>
     <select parameterType="map" id="consultarItem" resultMap="ItemResult">
 		SELECT
         i.id ,
@@ -34,6 +37,21 @@
         ti.descripcion as tipoitem_descripcion
         from VI_ITEMS as i ,VI_TIPOITEM as ti
 	</select>
+	<select parameterType="map" id="consultarItemsDisponibles" resultMap="ItemResult">
+    	SELECT i.id ,
+        i.nombre ,
+        i.descripcion,
+        i.fechalanzamiento  ,
+        i.tarifaxdia  ,
+        i.formatorenta  ,
+        i.genero ,
+        ti.id as tipoitem_id,
+        ti.descripcion as tipoitem_descripcion
+    	FROM VI_ITEMS as i
+    	left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id
+    	WHERE i.id not in (SELECT ir.id from VI_ITEMRENTADO as ir);
+  	</select>
+	
     <resultMap type='Item' id='ItemResult'>
         <id property='id' column='id'/>
         <result property='nombre' column='nombre'/>
