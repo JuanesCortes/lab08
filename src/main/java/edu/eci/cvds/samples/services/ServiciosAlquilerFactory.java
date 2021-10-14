@@ -55,7 +55,6 @@ public class ServiciosAlquilerFactory {
 
    public ServiciosAlquiler getServiciosAlquilerTesting(){
        if (!optInjector.isPresent()) {
-    	   System.out.println("ANTES DE optInjector");
            optInjector = Optional.of(myBatisInjector("test","mybatis-config-h2.xml"));
        }
 

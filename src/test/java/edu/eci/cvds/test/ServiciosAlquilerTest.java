@@ -36,14 +36,10 @@ public class ServiciosAlquilerTest {
         for(int i = 0; i < 100; i += 10) {
             boolean r = false;
             try {
-            	System.out.println("ANTES DE LA CONSULTA");
                 Cliente cliente = serviciosAlquiler.consultarCliente(2134391);
-                System.out.println("ANTES DE LA  EXCEPCION");
             } catch(ExcepcionServiciosAlquiler e) {
-            	System.out.println("ENTRO A LA EXCEPCION");
                 r = true;
             } catch(IndexOutOfBoundsException e) {
-            	System.out.println("ENTRO A LA EXCEPCION");
                 r = true;
             }
             // Validate no Client was found;
