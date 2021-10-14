@@ -35,6 +35,7 @@ public class ServiciosAlquilerFactory {
                bind(ClienteDAO.class).to(MyBATISClienteDAO.class);
                bind(ItemRentadoDAO.class).to(MyBATISItemRentadoDAO.class);
                bind(TipoItemDAO.class).to(MyBATISTipoItemDAO.class);
+               
            }
        });
    }
@@ -54,6 +55,7 @@ public class ServiciosAlquilerFactory {
 
    public ServiciosAlquiler getServiciosAlquilerTesting(){
        if (!optInjector.isPresent()) {
+    	   System.out.println("ANTES DE optInjector");
            optInjector = Optional.of(myBatisInjector("test","mybatis-config-h2.xml"));
        }
 
